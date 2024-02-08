@@ -11,12 +11,10 @@ namespace BulkyWeb.Areas.Admin.Controllers;
 public class CompanyController: Controller
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public CompanyController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+    public CompanyController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public IActionResult Index()
@@ -29,39 +27,38 @@ public class CompanyController: Controller
 
 	public IActionResult Upsert(int? id)
 	{
-        Company company = new Company();
 
 		if (id == null || id == 0)
 		{
 			//create
-			return View(company);
+			return View(new Company());
 		}
 		else
 		{
 			//update
-			company = _unitOfWork.Company.Get(u => u.Id == id);
-			return View(company);
+			Company companyObj = _unitOfWork.Company.Get(u => u.Id == id);
+			return View(companyObj);
 
 		}
 	}
 
 
 	[HttpPost]
-    public IActionResult Upsert(Company company)
+    public IActionResult Upsert(Company CompanyObj)
     {
 
         if (ModelState.IsValid)
         {
            
-            if (company.Id == 0)
+            if (CompanyObj.Id == 0)
             {
-                _unitOfWork.Company.Add(company);
+                _unitOfWork.Company.Add(CompanyObj);
 
             }
 
             else
             {
-                _unitOfWork.Company.Update(company);
+                _unitOfWork.Company.Update(CompanyObj);
 
             }
 
@@ -71,7 +68,7 @@ public class CompanyController: Controller
         }
         else
         {
-            return View(company);
+            return View(CompanyObj);
         }
     }
 
