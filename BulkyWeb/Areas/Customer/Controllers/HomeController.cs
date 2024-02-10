@@ -27,6 +27,11 @@ public class HomeController : Controller
 
 	public IActionResult Details(int Id)
 	{
+        if (Id == 0)
+        {
+            return RedirectToAction("Index");
+        }
+
         ShoppingCart shoppingCart = new()
         {
             Product = _unitOfWork.Product.Get(u => u.Id == Id, includeProperties: "Category"),
