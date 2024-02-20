@@ -612,6 +612,8 @@ namespace Bulky.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.ToTable("AspNetUsers");
+
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 

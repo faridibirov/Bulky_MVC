@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Bulky.Models;
 
+[Table("AspNetUsers")]
 public class ApplicationUser: IdentityUser
 {
     [Required]
