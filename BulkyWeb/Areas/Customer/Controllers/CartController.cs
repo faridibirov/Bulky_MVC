@@ -137,7 +137,7 @@ public class CartController : Controller
 		{
 			//it is a regular customer and we need to take payment
 			//stripe logic
-			var domain = "https://localhost:7283/";
+			var domain = Request.Scheme+"://"+ Request.Host.Value + "/";
 			var options = new Stripe.Checkout.SessionCreateOptions
 			{
 				SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
