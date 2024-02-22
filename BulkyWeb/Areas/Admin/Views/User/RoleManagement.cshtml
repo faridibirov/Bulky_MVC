@@ -20,8 +20,7 @@
 						</div>
 						<div class="form-floating py-2 col-12">
 							<select asp-for="@Model.ApplicationUser.Role" asp-items="@Model.RoleList" class="form-select">
-								<option disabled selected>@Model.ApplicationUser.Role</option>
-							</select>
+						</select>
 							</div>
 						@{
 							var companyVisible = "display:none;";
@@ -32,8 +31,7 @@
 						}
 						<div class="form-floating py-2 col-12">
 							<select asp-for="ApplicationUser.CompanyId" style="@companyVisible" asp-items="@Model.CompanyList" class="form-select">
-								<option disabled selected>@Model.ApplicationUser.Role</option>
-							</select>
+ 							</select>
 						</div>
 						<div class="row pt-2">
 							<div class="col-6 col-md-3">
