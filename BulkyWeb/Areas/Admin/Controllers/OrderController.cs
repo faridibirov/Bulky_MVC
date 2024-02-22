@@ -60,7 +60,7 @@ public class OrderController : Controller
 
         if (!string.IsNullOrEmpty(OrderVM.OrderHeader.TrackingNumber))
         {
-            orderHeaderFromDb.Carrier = OrderVM.OrderHeader.TrackingNumber;
+            orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
         }
 
 		_unitOfWork.OrderHeader.Update(orderHeaderFromDb);

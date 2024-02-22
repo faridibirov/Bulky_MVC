@@ -48,46 +48,21 @@ public class ProductController : Controller
 		else
 		{
 			//update
-			productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+			productVM.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties:"ProductImages");
 			return View(productVM);
 
 		}
 	}
 
 	[HttpPost]
-	public IActionResult Upsert(ProductVM productVM, IFormFile? file)
+	public IActionResult Upsert(ProductVM productVM, List<IFormFile> files)
 	{
 
 		if (ModelState.IsValid)
 		{
-			string wwwRootPath = _webHostEnvironment.WebRootPath;
-			if(file!=null)
+			if (productVM.Product.Id == 0)
 			{
-				string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-				string productPath = Path.Combine(wwwRootPath, @"images\product");
-
-				if(!string.IsNullOrEmpty(productVM.Product.ImageUrl))
-				{
-					//delete the old image
-					var oldImagePath =
-						Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
-
-					if (System.IO.File.Exists(oldImagePath))
-					{
-						System.IO.File.Delete(oldImagePath);
-					}
-				}
-
-				using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
-				{
-					file.CopyTo(fileStream);
-				}
-				productVM.Product.ImageUrl = @"\images\product\" + fileName;
-			}
-
-			if(productVM.Product.Id==0)
-			{
-			_unitOfWork.Product.Add(productVM.Product);
+				_unitOfWork.Product.Add(productVM.Product);
 
 			}
 
@@ -98,7 +73,48 @@ public class ProductController : Controller
 			}
 
 			_unitOfWork.Save();
-			TempData["success"] = "Product created successfully";
+
+			string wwwRootPath = _webHostEnvironment.WebRootPath;
+			if(files!=null)
+			{
+
+				foreach(var file in files)
+				{
+				string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+				string productPath = @"image\products\product-" + productVM.Product.Id;
+				string finalPath = Path.Combine(wwwRootPath, productPath);
+
+					if(!Directory.Exists(finalPath))
+					{
+						Directory.CreateDirectory(finalPath);
+					}
+
+					using (var fileStream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+					{
+						file.CopyTo(fileStream);
+					}
+
+					ProductImage productImage = new()
+					{
+						ImageUrl = @"\" + productPath + @"\" + fileName,
+						ProductId=productVM.Product.Id,
+					};
+
+					if(productVM.Product.ProductImages==null)
+					{
+						productVM.Product.ProductImages = new List<ProductImage>();
+					}
+
+					productVM.Product.ProductImages.Add(productImage);
+				}
+
+				_unitOfWork.Product.Update(productVM.Product);
+				_unitOfWork.Save();
+
+			}
+
+			
+			TempData["success"] = "Product created/updated successfully";
 			return RedirectToAction("Index");
 		}
 		else
@@ -110,6 +126,33 @@ public class ProductController : Controller
 			});
 			return View(productVM);
 		}
+	}
+
+	public IActionResult DeleteImage(int imageId)
+	{
+		var imageTobeDeleted = _unitOfWork.ProductImage.Get(u=>u.Id == imageId);
+		if(imageTobeDeleted != null)
+		{
+			if(!string.IsNullOrEmpty(imageTobeDeleted.ImageUrl))
+			{
+				var oldImagePath =
+						Path.Combine(_webHostEnvironment.WebRootPath,
+						imageTobeDeleted.ImageUrl.TrimStart('\\'));
+
+				if (System.IO.File.Exists(oldImagePath))
+				{
+					System.IO.File.Delete(oldImagePath);
+				}
+			}
+
+			_unitOfWork.ProductImage.Remove(imageTobeDeleted);
+			_unitOfWork.Save();
+
+			TempData["success"] = "Deleted successfully";
+
+		}
+
+		return RedirectToAction(nameof(Upsert), new { id = imageTobeDeleted.ProductId });
 	}
 
 
@@ -133,14 +176,22 @@ public class ProductController : Controller
             return Json(new { success=false, message= "Error while deleting" });
         }
 
-        var oldImagePath = 
-						Path.Combine(_webHostEnvironment.WebRootPath, 
-						productToBeDeleted.ImageUrl.TrimStart('\\'));
+		string productPath = @"image\products\product-" + id;
+		string finalPath = Path.Combine(_webHostEnvironment.WebRootPath, productPath);
 
-        if (System.IO.File.Exists(oldImagePath))
-        {
-            System.IO.File.Delete(oldImagePath);
-        }
+		if (Directory.Exists(finalPath))
+		{
+			string[] filePaths = Directory.GetFiles(finalPath);
+
+			foreach(string filePath in filePaths)
+			{
+				System.IO.File.Delete(filePath);
+			}
+
+			Directory.Delete(finalPath);
+		}
+
+	
 
 		_unitOfWork.Product.Remove(productToBeDeleted);
 		_unitOfWork.Save();

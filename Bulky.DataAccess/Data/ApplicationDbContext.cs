@@ -16,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext
 	public DbSet<Company> Companies { get; set; }
 	public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 	public DbSet<ShoppingCart>  ShoppingCarts { get; set; }
+	public DbSet<ProductImage> ProductImages { get; set; }
 	public DbSet<OrderHeader> OrderHeaders { get; set; }
 	public DbSet<OrderDetail> OrderDetails { get; set; }
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,8 +40,7 @@ public class ApplicationDbContext : IdentityDbContext
 			  Price = 90,
 			  Price50 = 85,
 			  Price100 = 80,
-			  CategoryId = 1,
-			  ImageUrl = ""
+			  CategoryId = 1
 		  },
 				new Product
 				{
@@ -53,8 +53,7 @@ public class ApplicationDbContext : IdentityDbContext
 					Price = 30,
 					Price50 = 25,
 					Price100 = 20,
-					CategoryId = 1,
-					ImageUrl = ""
+					CategoryId = 1
 				},
 				new Product
 				{
@@ -67,8 +66,7 @@ public class ApplicationDbContext : IdentityDbContext
 					Price = 50,
 					Price50 = 40,
 					Price100 = 35,
-					CategoryId = 1,
-					ImageUrl = ""
+					CategoryId = 1
 				},
 				new Product
 				{
@@ -81,8 +79,7 @@ public class ApplicationDbContext : IdentityDbContext
 					Price = 65,
 					Price50 = 60,
 					Price100 = 55,
-					CategoryId = 2,
-					ImageUrl = ""
+					CategoryId = 2
 				},
 				new Product
 				{
@@ -95,8 +92,7 @@ public class ApplicationDbContext : IdentityDbContext
 					Price = 27,
 					Price50 = 25,
 					Price100 = 20,
-					CategoryId = 2,
-					ImageUrl = ""
+					CategoryId = 2
 				},
 				new Product
 				{
@@ -109,8 +105,7 @@ public class ApplicationDbContext : IdentityDbContext
 					Price = 23,
 					Price50 = 22,
 					Price100 = 20,
-					CategoryId = 3,
-					ImageUrl = ""
+					CategoryId = 3
 				});
 
 		modelBuilder.Entity<Company>().HasData(

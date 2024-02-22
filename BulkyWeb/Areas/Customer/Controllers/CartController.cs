@@ -38,6 +38,7 @@ public class CartController : Controller
 			OrderHeader = new()
 		};
 
+
 		foreach (var cart in ShoppingCartVM.ShoppingCartList)
 		{
 			cart.Price = GetPriceBasedOnQuantity(cart);
