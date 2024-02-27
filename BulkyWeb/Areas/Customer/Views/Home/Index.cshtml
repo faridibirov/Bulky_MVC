@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Product>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="row pb-3">
 	@foreach (var product in Model)
@@ -22,19 +23,19 @@
 							</div>
 							<div class="pl-1">
 								<p class="text-dark text-opacity-75  text-center mb-0">
-									List Price:
+									@localizer["ListPrice"]
 									<span class="text-decoration-line-through">
 										@product.ListPrice.ToString("C", new System.Globalization.CultureInfo("en-US"))
 										</span>
 										</p>
 							</div>
 							<div class="pl-1">
-								<p class="text-dark text-opacity-75  text-center">As low as: <span>@product.Price100.ToString("C", new System.Globalization.CultureInfo("en-US"))</span></p>
+								<p class="text-dark text-opacity-75  text-center">@localizer["LowPrice"] <span>@product.Price100.ToString("C", new System.Globalization.CultureInfo("en-US"))</span></p>
 							</div>
 						</div>
 						<div>
 							<a asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
-								Details
+								@localizer["Details"]
 							</a>
 							</div>
 					</div>
