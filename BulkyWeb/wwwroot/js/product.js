@@ -12,7 +12,7 @@ function loadDataTable() {
             { data: 'isbn', "width": "15%" },
             { data: 'listPrice', "width": "10%" },
             { data: 'author', "width": "15%" },
-            { data: 'category.name', "width": "10%" },
+            { data: 'categoryName', "width": "10%" },
             {
                 data: 'id',
                 "render": function (data) {

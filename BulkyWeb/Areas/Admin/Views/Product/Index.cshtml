@@ -1,10 +1,11 @@
 ﻿@model List<Product>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="card shadow border-0 my-4 mb-5">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">Product List</h2>
+				<h2 class="text-white py-2"> @localizer["ProductList"]</h2>
 			</div>
 		</div>
 	</div>
@@ -14,7 +15,7 @@
 			</div>
 			<div class="col-6 text-end">
 				<a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
-					<i class="bi bi-plus-circle"></i> Create New Product
+					<i class="bi bi-plus-circle"></i> @localizer["CreateNewProduct"]
 				</a>
 			</div>
 		</div>
@@ -22,11 +23,11 @@
 		<table id="tblData" class="table table-bordered  table-striped" style="width:100%">
 			<thead>
 				<tr>
-					<th>Title</th>
+					<th> @localizer["Title"]</th>
 					<th>ISBN</th>
-					<th>Price</th>
-					<th>Author</th>
-					<th>Category</th>
+					<th> @localizer["Price"]</th>
+					<th> @localizer["Author"]</th>
+					<th> @localizer["Category"]</th>
 					<th></th>
 				</tr>
 			</thead>

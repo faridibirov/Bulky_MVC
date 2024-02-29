@@ -33,7 +33,7 @@ public class CategoryController : Controller
     [HttpPost]
     public IActionResult Create(Category obj)
     {
-        if (obj.Name == obj.DisplayOrder.ToString())
+        if (obj.NameEN == obj.DisplayOrder.ToString() || obj.NameRU == obj.DisplayOrder.ToString())
         {
             ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
         }

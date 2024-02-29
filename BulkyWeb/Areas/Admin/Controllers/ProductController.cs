@@ -3,8 +3,10 @@ using Bulky.Models;
 using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Globalization;
 
 namespace BulkyWeb.Areas.Admin.Controllers;
 
@@ -21,6 +23,21 @@ public class ProductController : Controller
 		_webHostEnvironment = webHostEnvironment;
 	}
 
+	[HttpPost]
+	public IActionResult CultureManagement(string culture, string returnUrl)
+	{
+		Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+			CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+			new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+		return LocalRedirect(returnUrl);
+	}
+
+	private string GetCurrentCulture()
+	{
+		return CultureInfo.CurrentCulture.Name;
+	}
+
 	public IActionResult Index()
 	{
 		List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
@@ -30,12 +47,14 @@ public class ProductController : Controller
 
 	public IActionResult Upsert(int? id)
 	{
+		
 
 		ProductVM productVM = new()
 		{
 			CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
 			{
-				Text = u.Name,
+				
+				Text = GetCurrentCulture() == "en" ? u.NameEN : u.NameRU,
 				Value = u.Id.ToString()
 			}),
 			Product = new Product()
@@ -119,9 +138,10 @@ public class ProductController : Controller
 		}
 		else
 		{
+
 			productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
 			{
-				Text = u.Name,
+				Text = GetCurrentCulture() == "en" ? u.NameEN : u.NameRU,
 				Value = u.Id.ToString()
 			});
 			return View(productVM);
@@ -155,6 +175,7 @@ public class ProductController : Controller
 		return RedirectToAction(nameof(Upsert), new { id = imageTobeDeleted.ProductId });
 	}
 
+	
 
 	#region API CALLS
 
@@ -163,7 +184,20 @@ public class ProductController : Controller
 	{
         List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
 
-		return Json(new { data = objProductList });
+		
+
+		var localizedProductList = objProductList.Select(p => new
+		{
+			title = p.Title,
+			isbn = p.ISBN,
+			listPrice = p.ListPrice,
+			author = p.Author,
+			categoryName = GetCurrentCulture() == "en" ? p.Category.NameEN : p.Category.NameRU,
+			id = p.Id
+		}).ToList();
+
+
+		return Json(new { data = localizedProductList });
     }
 
     [HttpDelete]

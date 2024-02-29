@@ -4,6 +4,7 @@ using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using System.Security.Claims;
@@ -25,6 +26,17 @@ public class CartController : Controller
 		_unitOfWork = unitOfWork;
 		_emailSender = emailSender;
 	}
+
+	[HttpPost]
+	public IActionResult CultureManagement(string culture, string returnUrl)
+	{
+		Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+			CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+			new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+		return LocalRedirect(returnUrl);
+	}
+
 
 	public IActionResult Index()
 	{

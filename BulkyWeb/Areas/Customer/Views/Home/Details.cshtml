@@ -1,6 +1,9 @@
-﻿@model ShoppingCart
+﻿@using System.Globalization
+@model ShoppingCart
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+}
 <form method="post" action="Details">
 	<input hidden asp-for="ProductId" />
 	<div class="card shadow border-0 mt-4">
@@ -66,7 +69,7 @@
 					<div class="col-12 col-lg-6 offset-lg-1">
 
 						<div class="col-12 col-md-6 pb-4">
-							<span class="badge">@Model.Product.Category.Name</span>
+							<span class="badge">@(currentCulture == "en" ? Model.Product.Category.NameEN : Model.Product.Category.NameRU)</span>
 						</div>
 						<div class="row ps-2">
 							<h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>

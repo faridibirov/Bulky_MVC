@@ -1,4 +1,8 @@
-﻿@model List<Category>
+﻿@using System.Globalization
+@model List<Category>
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+}
 
 <div class="card shadow border-0 mt-4 mb-5">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -35,7 +39,7 @@
 				@foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
 				{
 					<tr>
-						<td>@obj.Name</td>
+						<td>@(currentCulture == "en" ? obj.NameEN : obj.NameRU)</td>
 						<td>@obj.DisplayOrder</td>
 						<td>
 							<div class="w-75 btn-group" role="group">

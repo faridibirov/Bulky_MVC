@@ -4,6 +4,7 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240228134652_RevertCategoryModel")]
+    partial class RevertCategoryModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,14 +36,10 @@ namespace Bulky.DataAccess.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameEN")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("NameRU")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -51,22 +50,19 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 1,
                             DisplayOrder = 1,
-                            NameEN = "Action",
-                            NameRU = "Боевик"
+                            Name = "Action"
                         },
                         new
                         {
                             Id = 2,
                             DisplayOrder = 2,
-                            NameEN = "SciFi",
-                            NameRU = "Научная Фантастика"
+                            Name = "SciFi"
                         },
                         new
                         {
                             Id = 3,
                             DisplayOrder = 3,
-                            NameEN = "History",
-                            NameRU = "История"
+                            Name = "History"
                         });
                 });
 
