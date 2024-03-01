@@ -3,7 +3,9 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace BulkyWeb.Areas.Admin.Controllers;
 
@@ -16,6 +18,21 @@ public class CategoryController : Controller
     public CategoryController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
+    }
+
+    [HttpPost]
+    public IActionResult CultureManagement(string culture, string returnUrl)
+    {
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+        return LocalRedirect(returnUrl);
+    }
+
+    private string GetCurrentCulture()
+    {
+        return CultureInfo.CurrentCulture.Name;
     }
 
     public IActionResult Index()
@@ -35,14 +52,14 @@ public class CategoryController : Controller
     {
         if (obj.NameEN == obj.DisplayOrder.ToString() || obj.NameRU == obj.DisplayOrder.ToString())
         {
-            ModelState.AddModelError("name", "The DisplayOrder cannot exactly match the Name");
+            ModelState.AddModelError("name", GetCurrentCulture()=="en" ? "The Display Order cannot exactly match the Name" : "Порядок отображения не может соответствовать имени");
         }
 
         if (ModelState.IsValid)
         {
             _unitOfWork.Category.Add(obj);
             _unitOfWork.Save();
-            TempData["success"] = "Category created successfully";
+            TempData["success"] = GetCurrentCulture() == "en" ? "Category created successfully" : "Категория успешно создана";
             return RedirectToAction("Index");
         }
         return View();
@@ -73,7 +90,7 @@ public class CategoryController : Controller
         {
             _unitOfWork.Category.Update(obj);
             _unitOfWork.Save();
-            TempData["success"] = "Category updated successfully";
+            TempData["success"] = GetCurrentCulture() == "en" ? "Category updated successfully" : "Категория успешно обновлена";
             return RedirectToAction("Index");
         }
         return View();
@@ -105,7 +122,7 @@ public class CategoryController : Controller
 
         _unitOfWork.Category.Remove(obj);
         _unitOfWork.Save();
-        TempData["success"] = "Category deleted successfully";
+        TempData["success"] = GetCurrentCulture() == "en" ? "Category deleted successfully" : "Категория успешно удалена";
         return RedirectToAction("Index");
     }
 }

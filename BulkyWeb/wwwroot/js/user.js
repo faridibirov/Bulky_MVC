@@ -4,6 +4,11 @@ $(document).ready(function () {
 });
 
 function loadDataTable() {
+
+    if ($.fn.DataTable.isDataTable('#tblData')) {
+        $('#tblData').DataTable().destroy();
+    }
+
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/user/getall' },
 

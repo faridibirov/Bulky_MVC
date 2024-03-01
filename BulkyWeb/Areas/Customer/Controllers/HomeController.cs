@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Customer.Controllers;
@@ -20,6 +21,11 @@ public class HomeController : Controller
     {
         _logger = logger;
         _unitOfWork = unitOfWork;
+    }
+
+    private string GetCurrentCulture()
+    {
+        return CultureInfo.CurrentCulture.Name;
     }
 
     public IActionResult Index()
@@ -87,7 +93,7 @@ public class HomeController : Controller
              _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
         }
 
-        TempData["success"] = "Cart updated successfully";
+        TempData["success"] = GetCurrentCulture() == "en" ? "Cart updated successfully" : "Корзина успешно обновлена";
 
 
         return RedirectToAction(nameof(Index));

@@ -1,4 +1,5 @@
 ﻿@model ShoppingCartVM
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <form method="post">
 	<br />
@@ -9,11 +10,11 @@
 				<div class="row px-4">
 					<div class="col-6">
 						<h5 class="pt-2 text-white">
-							Order Summary
+							@localizer["OrderSummary"]
 						</h5>
 					</div>
 				<div class="col-6 text-end">
-					<a asp-action="Index" class="btn btn-outline-danger btn-sm">Back to Cart</a>
+						<a asp-action="Index" class="btn btn-outline-danger btn-sm">@localizer["BacktoCart"]</a>
 				</div>
 				</div>
 			</div>
@@ -23,12 +24,12 @@
 						<div class="col-12 col-lg-6 pb-4">
 							<div class="row">
 								<h4 class="d-flex justify-content-between align-items-center mb-3">
-									<span class="text-info">Shipping Details:</span>
+									<span class="text-info">@localizer["ShippingDetails"]</span>
 								</h4>
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>Name</label>
+									<label>@localizer["Name"]</label>
 								</div>
 								<div class="col-9">
 								<input asp-for="OrderHeader.Name" class="form-contorl" />
@@ -37,7 +38,7 @@
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>Phone</label>
+									<label>@localizer["Phone"]</label>
 								</div>
 								<div class="col-9">
 									<input asp-for="OrderHeader.PhoneNumber" class="form-contorl" />
@@ -46,7 +47,7 @@
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>Street Address</label>
+									<label>@localizer["StreetAddress"]</label>
 								</div>
 								<div class="col-9">
 									<input asp-for="OrderHeader.StreetAddress" class="form-contorl" />
@@ -55,7 +56,7 @@
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>City</label>
+									<label>@localizer["City"]</label>
 								</div>
 								<div class="col-9">
 									<input asp-for="OrderHeader.City" class="form-contorl" />
@@ -64,7 +65,7 @@
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>State</label>
+									<label>@localizer["State"]</label>
 								</div>
 								<div class="col-9">
 									<input asp-for="OrderHeader.State" class="form-contorl" />
@@ -73,7 +74,7 @@
 							</div>
 							<div class="row my-1">
 								<div class="col-3">
-									<label>Postal Code</label>
+									<label>@localizer["PostalCode"]</label>
 								</div>
 								<div class="col-9">
 									<input asp-for="OrderHeader.PostalCode" class="form-contorl" />
@@ -83,7 +84,7 @@
 						</div>
 						<div class="col-12 col-lg-5 offset-lg-1">
 							<h4 class="d-flex justify-content-between align-items-center mb-3">
-								<span class="text-info">Order Summary:</span>
+								<span class="text-info">@localizer["OrderSummary:"]</span>
 							</h4>
 							<ul class="list-group mb-3">
 								@foreach(var details in Model.ShoppingCartList)
@@ -91,14 +92,14 @@
 								<li class="list-group-item d-flex justify-content-between">
 									<div>
 										<h6 class="my-0">@details.Product.Title</h6>
-										<small class="text-muted">Quantity: @details.Count</small>
+											<small class="text-muted">@localizer["Quantity"] @details.Count</small>
 									</div>
 										<span class="text-muted">@((details.Price * details.Count).ToString("C", new System.Globalization.CultureInfo("en-US")))</span>
 								</li>
 								}
 
 								<li class="list-group-item d-flex justify-content-between bg-light">
-									<small class="text-info">Total (USD)</small>
+									<small class="text-info">@localizer["Total"] (USD)</small>
 									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("C", new System.Globalization.CultureInfo("en-US"))</strong>
 								</li>
 							</ul>
@@ -109,12 +110,13 @@
 			<div class="card-footer">
 				<div class="row">
 					<div class="col-12 col-md-8 pt-2">
-						<p style="color:maroon; font-size:14px;">Estimate Arrival Date:
+						<p style="color:maroon; font-size:14px;">
+							@localizer["EstimateArrival"]
 							@DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
 						</p>
 					</div>
 					<div class="col-12 col-md-4">
-						<button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
+						<button type="submit" value="Place Order" class="btn btn-primary form-control">@localizer["PlaceOrder"]</button>
 					</div>
 				</div>
 			</div>

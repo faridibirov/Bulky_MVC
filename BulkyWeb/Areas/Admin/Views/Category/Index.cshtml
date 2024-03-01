@@ -1,5 +1,7 @@
 ﻿@using System.Globalization
 @model List<Category>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
 }
@@ -8,7 +10,7 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">Category List</h2>
+				<h2 class="text-white py-2">@localizer["CategoryList"]</h2>
 			</div>
 		</div>
 	</div>
@@ -18,7 +20,7 @@
 			</div>
 			<div class="col-6 text-end">
 				<a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-					<i class="bi bi-plus-circle"></i> Create New Category
+					<i class="bi bi-plus-circle"></i> @localizer["CreateCategory"]
 				</a>
 			</div>
 		</div>
@@ -27,10 +29,10 @@
 			<thead>
 				<tr>
 					<th>
-						Category Name
+						@localizer["CategoryName"]
 					</th>
 					<th>
-						Display Order
+						@localizer["DisplayOrder"]
 					</th>
 					<th></th>
 				</tr>
@@ -43,8 +45,8 @@
 						<td>@obj.DisplayOrder</td>
 						<td>
 							<div class="w-75 btn-group" role="group">
-								<a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit</a>
-								<a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> Delete</a>
+								<a asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> @localizer["Edit"]</a>
+								<a asp-controller="Category" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> @localizer["Delete"]</a>
 							</div>
 						</td>
 					</tr>

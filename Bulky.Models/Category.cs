@@ -9,9 +9,9 @@ public class Category
     public int Id { get; set; }
     [Required]
     [MaxLength(30)]
-    [DisplayName("Category Name in English")]
+    [DisplayName("Category Name")]
     public string NameEN{ get; set; }
-	[DisplayName("Category Name in Russian")]
+	[DisplayName("Название Категории")]
 	public string NameRU { get; set; }
 	[DisplayName("Display Order")]
     [Range(1, 100, ErrorMessage = "Display order must be between 1-100")]

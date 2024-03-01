@@ -1,5 +1,9 @@
 ﻿var dataTable;
 $(document).ready(function () {
+    if ($.fn.DataTable.isDataTable('#tblData')) {
+        $('#tblData').DataTable().destroy();
+    }
+
     var url = window.location.search;
 
     if (url.includes("inprocess")) {
