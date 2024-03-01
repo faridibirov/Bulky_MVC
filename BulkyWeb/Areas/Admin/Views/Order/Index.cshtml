@@ -1,4 +1,6 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
 	var status = Context.Request.Query["status"];
 	var paymentpending = "text-primary";
 	var inprocess = "text-primary";
@@ -29,7 +31,7 @@
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">Order List</h2>
+				<h2 class="text-white py-2">@localizer["OrderList"]</h2>
 			</div>
 		</div>
 	</div>
@@ -38,19 +40,19 @@
 			<span></span>
 			<ul class="list-group list-group-horizontal-sm">
 			<a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
-				<li class="list-group-item @inprocess">In Process</li>
+				<li class="list-group-item @inprocess">@localizer["InProcess"]</li>
 			</a>
 				<a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="paymentpending">
-				<li class="list-group-item @paymentpending">Payment Pending</li>
+				<li class="list-group-item @paymentpending">@localizer["PaymentPending"]</li>
 				</a>
 				<a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="completed">
-				<li class="list-group-item @completed">Completed</li>
+				<li class="list-group-item @completed">@localizer["Completed"]</li>
 			</a>
 				<a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="approved">
-				<li class="list-group-item @approved">Approved</li>
+				<li class="list-group-item @approved">@localizer["Approved"]</li>
 				</a>
 				<a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="all">
-				<li class="list-group-item @all">All</li>
+				<li class="list-group-item @all">@localizer["All"]</li>
 				</a>
 			</ul>
 		</div>
@@ -58,11 +60,11 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Name</th>
-					<th>Phone Number</th>
-					<th>Email</th>
-					<th>Status</th>
-					<th>Total</th>
+					<th>@localizer["Name"]</th>
+					<th>@localizer["PhoneNumber"]</th>
+					<th>@localizer["Email"]</th>
+					<th>@localizer["Status"]</th>
+					<th>@localizer["Total"]</th>
 					<th></th>
 				</tr>
 			</thead>

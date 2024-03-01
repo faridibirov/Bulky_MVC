@@ -1,8 +1,18 @@
 ﻿var dataTable;
-$(document).ready(function () {
-    if ($.fn.DataTable.isDataTable('#tblData')) {
-        $('#tblData').DataTable().destroy();
+
+var languageStrings = {
+    'en': {
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json"
+    },
+    'ru': {
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
     }
+};
+
+var languageUrl = languageStrings[cultureInfo].languageUrl;
+
+$(document).ready(function () {
+   
 
     var url = window.location.search;
 
@@ -31,9 +41,12 @@ $(document).ready(function () {
 });
 
 function loadDataTable(status) {
-    dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/admin/order/getall?status='+status },
+    if ($.fn.DataTable.isDataTable('#tblData')) {
+        $('#tblData').DataTable().destroy();
+    }
 
+    dataTable = $('#tblData').DataTable({
+        "ajax": { url: '/admin/order/getall?status=' + status },
         "columns": [
             { data: 'id', "width": "5%" },
             { data: 'name', "width": "25%" },

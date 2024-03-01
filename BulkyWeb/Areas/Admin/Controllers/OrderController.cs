@@ -5,9 +5,11 @@ using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Admin.Controllers;
@@ -27,6 +29,21 @@ public class OrderController : Controller
 	public IActionResult Index()
 	{
 		return View();
+	}
+
+	[HttpPost]
+	public IActionResult CultureManagement(string culture, string returnUrl)
+	{
+		Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+			CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+			new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+		return LocalRedirect(returnUrl);
+	}
+
+	private string GetCurrentCulture()
+	{
+		return CultureInfo.CurrentCulture.Name;
 	}
 
 	public IActionResult Details(int orderId)
@@ -66,7 +83,7 @@ public class OrderController : Controller
 		_unitOfWork.OrderHeader.Update(orderHeaderFromDb);
 		_unitOfWork.Save();
 
-		TempData["Success"] = "Order Details Updated Successfully.";
+		TempData["Success"] = GetCurrentCulture()=="en" ? "Order Details Updated Successfully." : "Сведения о Заказе Успешно Обновлены.";
 
         return RedirectToAction(nameof(Details), new {orderId=orderHeaderFromDb.Id});
     }
@@ -78,7 +95,7 @@ public class OrderController : Controller
 		_unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
 		_unitOfWork.Save();
 
-		TempData["Success"] = "Order Status Updated Successfully.";
+		TempData["Success"] = GetCurrentCulture() == "en" ?  "Order Status Updated Successfully." : "Статус Заказа Успешно Обновлен.";
 		return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
 
 	}
@@ -102,7 +119,7 @@ public class OrderController : Controller
 		_unitOfWork.Save();
 
 
-		TempData["Success"] = "Order Shipped	 Successfully.";
+		TempData["Success"] = GetCurrentCulture() == "en" ? "Order Shipped  Successfully." : "Заказ Успешно Отправлен.";
 		return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
 
 	}
@@ -134,7 +151,7 @@ public class OrderController : Controller
 
 		
 		_unitOfWork.Save();
-		TempData["Success"] = "Order Canceled Successfully.";
+		TempData["Success"] = GetCurrentCulture() == "en" ? "Order Canceled Successfully.": "Заказ Успешно Отменен.";
 		return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
 
 	}

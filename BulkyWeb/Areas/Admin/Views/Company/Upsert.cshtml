@@ -1,10 +1,11 @@
 ﻿@model Company
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="card shadow border-0 my-4 mb-5">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">@(Model.Id!=0?"Update":"Create") Company</h2>
+				<h2 class="text-white py-2">@(Model.Id != 0 ? localizer["Update"] : localizer["Create"]) @localizer["Company"]</h2>
 			</div>
 		</div>
 	</div>
@@ -50,16 +51,16 @@
 							<div class="col-6 col-md-3">
 								@if (Model.Id != 0)
 								{
-									<button type="submit" class="btn btn-primary form-control">Update</button>
+									<button type="submit" class="btn btn-primary form-control">@localizer["Update"]</button>
 								}
 								else
 								{
-									<button type="submit" class="btn btn-primary form-control">Create</button>
+									<button type="submit" class="btn btn-primary form-control">@localizer["Create"]</button>
 								}
 							</div>
 							<div class="col-6 col-md-3">
 								<a asp-controller="Company" asp-action="Index" class="btn btn-outline-primary  form-control">
-									Back to List
+									@localizer["Back"]
 								</a>
 							</div>
 						</div>

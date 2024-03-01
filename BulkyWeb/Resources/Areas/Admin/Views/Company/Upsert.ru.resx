@@ -118,12 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Back" xml:space="preserve">
-    <value>Вернуться в список</value>
+    <value>Назад в Список</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Компанию</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Добавить</value>
   </data>
-  <data name="CreateCategory" xml:space="preserve">
-    <value>Добавить категории</value>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
   </data>
 </root>

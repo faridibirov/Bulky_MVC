@@ -124,7 +124,7 @@
     <value>Название Категории</value>
   </data>
   <data name="CreateCategory" xml:space="preserve">
-    <value>Создать Новую Категорию</value>
+    <value>Добавить Новую Категорию</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Удалить</value>

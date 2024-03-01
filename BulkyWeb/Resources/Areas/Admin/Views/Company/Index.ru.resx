@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Вернуться в список</value>
+  <data name="City" xml:space="preserve">
+    <value>Город</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Добавить</value>
+  <data name="CompanyList" xml:space="preserve">
+    <value>Список Компаний</value>
   </data>
-  <data name="CreateCategory" xml:space="preserve">
-    <value>Добавить категории</value>
+  <data name="CreateCompany" xml:space="preserve">
+    <value>Добавить Новую Компанию</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Номер Телефона</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>Старана</value>
+  </data>
+  <data name="StreetAddress" xml:space="preserve">
+    <value>Адрес</value>
   </data>
 </root>

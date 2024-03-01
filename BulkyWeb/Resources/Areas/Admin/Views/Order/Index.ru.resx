@@ -117,13 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>Вернуться в список</value>
+  <data name="All" xml:space="preserve">
+    <value>Все</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Добавить</value>
+  <data name="Approved" xml:space="preserve">
+    <value>Одобренный</value>
   </data>
-  <data name="CreateCategory" xml:space="preserve">
-    <value>Добавить категории</value>
+  <data name="Completed" xml:space="preserve">
+    <value>Завершенный</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Электронная Почта</value>
+  </data>
+  <data name="InProcess" xml:space="preserve">
+    <value>В процессе</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="OrderList" xml:space="preserve">
+    <value>Список Заказов</value>
+  </data>
+  <data name="PaymentPending" xml:space="preserve">
+    <value>Ожидается платеж</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Номер Телефона</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
   </data>
 </root>
