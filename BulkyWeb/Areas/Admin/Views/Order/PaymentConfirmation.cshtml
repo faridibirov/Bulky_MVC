@@ -1,15 +1,16 @@
 ﻿@model int
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="container row pt-4">
 	<div class="col-12 text-center">
-		<h1 class="text-primary text-center"> Payment Successful!</h1>
-		Your Order Number is : @Model <br /><br />
+		<h1 class="text-primary text-center"> @localizer["PaymentSuccessful"]</h1>
+		@localizer["OrderNumber"] : @Model <br /><br />
 		<img src="~/images/lawn_leaf.jpg" width="65%" />
 	</div>
 	<div class="col-12 text-center" style="color:maroon">
 		<br />
-		Payment has been applied successfully! <br/>
+		@localizer["PaymentApplied"] <br />
 		<a asp-area="Admin" asp-controller="Order" asp-action="Details"
-		asp-route-orderId="@Model" class="btn btn-primary">Back to Order Details</a>
+		   asp-route-orderId="@Model" class="btn btn-primary">@localizer["Back"]</a>
 	</div>
 </div>

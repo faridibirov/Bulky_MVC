@@ -14,9 +14,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace BulkyWeb.Areas.Identity.Pages.Account
 {
+   
+
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -27,6 +31,8 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
         }
+
+        
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -60,6 +66,7 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -80,7 +87,6 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
@@ -101,7 +107,19 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		[HttpPost]
+		public IActionResult OnPostCultureManagement(string culture, string returnUrl)
+		{
+			Response.Cookies.Append(
+				CookieRequestCultureProvider.DefaultCookieName,
+				CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+				new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) }
+			);
+
+			return LocalRedirect(returnUrl);
+		}
+
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 

@@ -27,18 +27,18 @@ public class CartController : Controller
 		_emailSender = emailSender;
 	}
 
-	[HttpPost]
-	public IActionResult CultureManagement(string culture, string returnUrl)
-	{
-		Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-			CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-			new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+    [HttpPost]
+    public IActionResult CultureManagement(string culture, string returnUrl)
+    {
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
 
-		return LocalRedirect(returnUrl);
-	}
+        return LocalRedirect(returnUrl);
+    }
 
 
-	public IActionResult Index()
+    public IActionResult Index()
 	{
 		var claimsIdentity = (ClaimsIdentity)User.Identity;
 		var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;

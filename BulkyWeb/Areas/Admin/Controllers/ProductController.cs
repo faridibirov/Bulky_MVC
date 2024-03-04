@@ -133,7 +133,7 @@ public class ProductController : Controller
 			}
 
 			
-			TempData["success"] = "Product created/updated successfully";
+			TempData["success"] = GetCurrentCulture() == "en" ? "Product created/updated successfully" : "Продукт успешно добавлен/обновлен";
 			return RedirectToAction("Index");
 		}
 		else
@@ -168,7 +168,7 @@ public class ProductController : Controller
 			_unitOfWork.ProductImage.Remove(imageTobeDeleted);
 			_unitOfWork.Save();
 
-			TempData["success"] = "Deleted successfully";
+			TempData["success"] = GetCurrentCulture() == "en" ? "Deleted successfully" : "Успешно удалено" ;
 
 		}
 
@@ -207,7 +207,7 @@ public class ProductController : Controller
 
 		if(productToBeDeleted==null)
 		{
-            return Json(new { success=false, message= "Error while deleting" });
+            return Json(new { success=false, message= GetCurrentCulture() == "en" ? "Error while deleting" : "Ошибка при удалении" });
         }
 
 		string productPath = @"image\products\product-" + id;
@@ -232,7 +232,7 @@ public class ProductController : Controller
 
         List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
 
-        return Json(new { success = true, message = "Delete Successful" });
+        return Json(new { success = true, message = GetCurrentCulture() == "en" ? "Delete Successful" : "Успешно удалено" });
     }
 
     #endregion

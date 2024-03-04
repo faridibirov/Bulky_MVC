@@ -46,6 +46,7 @@ function loadDataTable(status) {
     }
 
     dataTable = $('#tblData').DataTable({
+        /*"language": {url: languageUrl},*/
         "ajax": { url: '/admin/order/getall?status=' + status },
         "columns": [
             { data: 'id', "width": "5%" },

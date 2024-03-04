@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -125,8 +126,19 @@ namespace BulkyWeb.Areas.Identity.Pages.Account
 			public IEnumerable<SelectListItem> CompanyList { get; set; }
 		}
 
+		[HttpPost]
+		public IActionResult OnPostCultureManagement(string culture, string returnUrl)
+		{
+			Response.Cookies.Append(
+				CookieRequestCultureProvider.DefaultCookieName,
+				CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+				new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) }
+			);
 
-        public async Task OnGetAsync(string returnUrl = null)
+			return LocalRedirect(returnUrl);
+		}
+
+		public async Task OnGetAsync(string returnUrl = null)
         {
            
 
