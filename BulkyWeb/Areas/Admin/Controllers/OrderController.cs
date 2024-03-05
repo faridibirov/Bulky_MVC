@@ -185,7 +185,7 @@ public class OrderController : Controller
 					Currency = "usd",
 					ProductData = new SessionLineItemPriceDataProductDataOptions
 					{
-						Name = item.Product.Title
+						Name = GetCurrentCulture()=="en"  ? item.Product.TitleEN : item.Product.TitleRU
 					}
 				},
 				Quantity = item.Count

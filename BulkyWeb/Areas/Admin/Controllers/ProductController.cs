@@ -188,10 +188,10 @@ public class ProductController : Controller
 
 		var localizedProductList = objProductList.Select(p => new
 		{
-			title = p.Title,
+			title = GetCurrentCulture() == "en" ? p.TitleEN : p.TitleRU,
 			isbn = p.ISBN,
 			listPrice = p.ListPrice,
-			author = p.Author,
+			author = GetCurrentCulture() == "en" ? p.AuthorEN : p.AuthorRU,
 			categoryName = GetCurrentCulture() == "en" ? p.Category.NameEN : p.Category.NameRU,
 			id = p.Id
 		}).ToList();

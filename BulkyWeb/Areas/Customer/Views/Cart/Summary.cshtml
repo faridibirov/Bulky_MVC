@@ -1,5 +1,11 @@
-﻿@model ShoppingCartVM
+﻿@using System.Globalization
+@model ShoppingCartVM
+
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+}
 
 <form method="post">
 	<br />
@@ -91,7 +97,7 @@
 								{
 								<li class="list-group-item d-flex justify-content-between">
 									<div>
-										<h6 class="my-0">@details.Product.Title</h6>
+											<h6 class="my-0">@(currentCulture == "en" ? details.Product.TitleEN : details.Product.TitleRU)</h6>
 											<small class="text-muted">@localizer["Quantity"] @details.Count</small>
 									</div>
 										<span class="text-muted">@((details.Price * details.Count).ToString("C", new System.Globalization.CultureInfo("en-US")))</span>

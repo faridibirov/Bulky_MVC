@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
+using System.Globalization;
 using System.Security.Claims;
 
 namespace BulkyWeb.Areas.Customer.Controllers;
@@ -37,8 +38,13 @@ public class CartController : Controller
         return LocalRedirect(returnUrl);
     }
 
+	private string GetCurrentCulture()
+	{
+		return CultureInfo.CurrentCulture.Name;
+	}
 
-    public IActionResult Index()
+
+	public IActionResult Index()
 	{
 		var claimsIdentity = (ClaimsIdentity)User.Identity;
 		var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -171,7 +177,7 @@ public class CartController : Controller
 						Currency = "usd",
 						ProductData = new SessionLineItemPriceDataProductDataOptions
 						{
-							Name = item.Product.Title
+							Name =  GetCurrentCulture()=="en" ? item.Product.TitleEN : item.Product.TitleRU,
 						}
 					},
 					Quantity = item.Count

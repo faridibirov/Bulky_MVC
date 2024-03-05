@@ -24,15 +24,18 @@ public class ProductRepository : Repository<Product>, IProductRepository
 		var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
 		if (objFromDb != null)
 		{
-			objFromDb.Title = obj.Title;
+			objFromDb.TitleEN = obj.TitleEN;
+			objFromDb.TitleRU = obj.TitleRU;
 			objFromDb.ISBN = obj.ISBN;
 			objFromDb.Price = obj.Price;
 			objFromDb.Price50 = obj.Price50;
 			objFromDb.ListPrice = obj.ListPrice;
 			objFromDb.Price100 = obj.Price100;
-			objFromDb.Description = obj.Description;
+			objFromDb.DescriptionEN = obj.DescriptionEN;
+			objFromDb.DescriptionRU = obj.DescriptionRU;
 			objFromDb.CategoryId = obj.CategoryId;
-			objFromDb.Author = obj.Author;
+			objFromDb.AuthorEN = obj.AuthorEN;
+			objFromDb.AuthorRU = obj.AuthorRU;
 			objFromDb.ProductImages = obj.ProductImages;
 		}
 	}

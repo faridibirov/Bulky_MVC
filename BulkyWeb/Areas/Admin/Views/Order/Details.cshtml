@@ -1,5 +1,11 @@
-﻿@model OrderVM
+﻿@using System.Globalization
+@model OrderVM
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+}
+
 
 <form method="post">
 	<input asp-for="OrderHeader.Id" hidden />
@@ -219,7 +225,7 @@
 										<div class="row container">
 											<div class="col-8">
 
-												<h6 class="my-0 text-primary">@detail.Product.Title</h6>
+												<h6 class="my-0 text-primary">@(currentCulture == "en" ? detail.Product.TitleEN : detail.Product.TitleRU) </h6>
 												<small class="text-muted">@localizer["Price"] : @detail.Price.ToString("C", new System.Globalization.CultureInfo("en-US"))</small><br />
 												<small class="text-muted">@localizer["Quantity"] : @detail.Count</small>
 											</div>

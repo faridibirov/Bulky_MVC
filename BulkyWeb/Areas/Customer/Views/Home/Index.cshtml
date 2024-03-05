@@ -1,5 +1,10 @@
 ﻿@model IEnumerable<Product>
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@using System.Globalization
+
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+}
 
 <div class="row pb-3">
 	@foreach (var product in Model)
@@ -18,8 +23,8 @@
 					
  						<div class="card-body pb-0">
 							<div class="pl-1">
-								<p class="card-title h6 text-dark opacity-75 text-uppercase text-center">@product.Title</p>
-								<p class="card-title text-warning text-center">by <b>@product.Author</b></p>
+								<p class="card-title h6 text-dark opacity-75 text-uppercase text-center">@(currentCulture == "en" ? product.TitleEN : product.TitleRU)</p>
+								<p class="card-title text-warning text-center">@(currentCulture == "en" ? "by" : "автор") <b>@(currentCulture == "en" ? product.AuthorEN : product.AuthorRU)</b></p>
 							</div>
 							<div class="pl-1">
 								<p class="text-dark text-opacity-75  text-center mb-0">

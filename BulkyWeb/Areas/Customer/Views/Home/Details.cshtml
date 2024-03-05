@@ -10,8 +10,8 @@
 		<div class="card-header bg-secondary bg-gradient text-light py-4">
 			<div class="row">
 				<div class="col-12 text-center">
-					<h3 class="text-white text-uppercase">@Model.Product.Title</h3>
-					<p class="text-white-50 fw-semibold mb-0">by @Model.Product.Author</p>
+					<h3 class="text-white text-uppercase">@(currentCulture == "en" ? Model.Product.TitleEN : Model.Product.TitleRU)</h3>
+					<p class="text-white-50 fw-semibold mb-0">@(currentCulture == "en" ? "by" : "автор" ) @(currentCulture == "en" ? Model.Product.AuthorEN : Model.Product.AuthorRU)</p>
 				</div>
 			</div>
 		</div>
@@ -111,7 +111,7 @@
 							</div>
 						</div>
 						<div class="row pl-2 my-3">
-							<p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
+							<p class="text-secondary lh-sm">@Html.Raw(currentCulture=="en" ? Model.Product.DescriptionEN : Model.Product.DescriptionRU)</p>
 						</div>
 						<div class="row pl-2 mb-3">
 							<div class="col-md-4">
