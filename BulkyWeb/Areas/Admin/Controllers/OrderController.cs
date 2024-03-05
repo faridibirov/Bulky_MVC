@@ -92,7 +92,7 @@ public class OrderController : Controller
 	[Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
 	public IActionResult StartProcessing()
 	{
-		_unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcess);
+		_unitOfWork.OrderHeader.UpdateStatus(OrderVM.OrderHeader.Id, SD.StatusInProcessEN, SD.StatusInProcessRU);
 		_unitOfWork.Save();
 
 		TempData["Success"] = GetCurrentCulture() == "en" ?  "Order Status Updated Successfully." : "Статус Заказа Успешно Обновлен.";
@@ -107,10 +107,11 @@ public class OrderController : Controller
 		var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 		orderHeaderFromDb.TrackingNumber = OrderVM.OrderHeader.TrackingNumber;
 		orderHeaderFromDb.Carrier = OrderVM.OrderHeader.Carrier;
-		orderHeaderFromDb.OrderStatus =SD.StatusShipped;
+		orderHeaderFromDb.OrderStatusEN =SD.StatusShippedEN;
+		orderHeaderFromDb.OrderStatusRU =SD.StatusShippedRU;
 		orderHeaderFromDb.ShippingDate = DateTime.Now;
 
-		if (orderHeaderFromDb.PaymentStatus==SD.PaymentStatusDelayedPayment)
+		if (orderHeaderFromDb.PaymentStatusEN==SD.PaymentStatusDelayedPaymentEN)
 		{
 			orderHeaderFromDb.PaymentDueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30));
 		}
@@ -131,7 +132,7 @@ public class OrderController : Controller
 	{
 		var orderHeaderFromDb = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id);
 
-		if(orderHeaderFromDb.PaymentStatus==SD.PaymentStatusApproved)
+		if(orderHeaderFromDb.PaymentStatusEN==SD.PaymentStatusApprovedEN)
 		{
 			var options = new RefundCreateOptions()
 			{
@@ -141,12 +142,12 @@ public class OrderController : Controller
 
 			var service = new RefundService();
 			Refund refund = service.Create(options);
-			_unitOfWork.OrderHeader.UpdateStatus(orderHeaderFromDb.Id, SD.StatusCancelled, SD.StatusRefunded);
+			_unitOfWork.OrderHeader.UpdateStatus(orderHeaderFromDb.Id, SD.StatusCancelledEN, SD.StatusCancelledRU, SD.StatusRefundedEN, SD.StatusRefundedRU);
 		}
 
 		else
 		{
-			_unitOfWork.OrderHeader.UpdateStatus(orderHeaderFromDb.Id, SD.StatusCancelled, SD.StatusCancelled);
+			_unitOfWork.OrderHeader.UpdateStatus(orderHeaderFromDb.Id, SD.StatusCancelledEN, SD.StatusCancelledRU, SD.StatusCancelledEN, SD.StatusCancelledRU);
 		}
 
 		
@@ -205,7 +206,7 @@ public class OrderController : Controller
 	public IActionResult PaymentConfirmation(int orderHeaderId)
 	{
 		OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderHeaderId, includeProperties: "ApplicationUser");
-		if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+		if (orderHeader.PaymentStatusEN == SD.PaymentStatusDelayedPaymentEN)
 		{
 			//this is an order by company
 
@@ -216,7 +217,7 @@ public class OrderController : Controller
 			if (session.PaymentStatus.ToLower() == "paid")
 			{
 				_unitOfWork.OrderHeader.UpdateStripePaymentID(orderHeaderId, session.Id, session.PaymentIntentId);
-				_unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+				_unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatusEN, orderHeader.OrderStatusRU,  SD.PaymentStatusApprovedEN, SD.PaymentStatusApprovedRU);
 				_unitOfWork.Save();
 			}
 		}
@@ -252,16 +253,16 @@ public class OrderController : Controller
 		switch (status)
 		{
 			case "paymentpending":
-					objOrderHeaders = objOrderHeaders.Where(u=>u.PaymentStatus==SD.PaymentStatusDelayedPayment);
+					objOrderHeaders = objOrderHeaders.Where(u=>u.PaymentStatusEN==SD.PaymentStatusDelayedPaymentEN);
 				break;
 			case "inprocess":
-				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusInProcess);
+				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatusEN == SD.StatusInProcessEN);
 				break;
 			case "completed":
-				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusShipped);
+				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatusEN == SD.StatusShippedEN);
 				break;
 			case "approved":
-				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatus == SD.StatusApproved);
+				objOrderHeaders = objOrderHeaders.Where(u => u.OrderStatusEN == SD.StatusApprovedEN);
 				break;
 			default:
 				break;

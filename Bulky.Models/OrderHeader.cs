@@ -21,8 +21,10 @@ public class OrderHeader
     public DateTime ShippingDate { get; set; }
     public double OrderTotal { get; set; }
 
-    public string? OrderStatus { get; set; }
-    public string? PaymentStatus { get; set; }
+    public string? OrderStatusEN { get; set; }
+    public string? OrderStatusRU { get; set; }
+    public string? PaymentStatusEN { get; set; }
+    public string? PaymentStatusRU { get; set; }
     public string? TrackingNumber { get; set; }
     public string? Carrier { get; set; }
 

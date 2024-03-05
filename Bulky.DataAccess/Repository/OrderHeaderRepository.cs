@@ -25,15 +25,17 @@ public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderReposi
 		_db.OrderHeaders.Update(obj);
 	}
 
-	public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+	public void UpdateStatus(int id, string orderStatusEN, string orderStatusRU, string? paymentStatusEN = null, string? paymentStatusRU = null)
 	{
 		var orderFromDb=_db.OrderHeaders.FirstOrDefault(u=>u.Id == id);
 		if (orderFromDb != null)
 		{
-			orderFromDb.OrderStatus= orderStatus;
-			if(!string.IsNullOrEmpty(paymentStatus))
+			orderFromDb.OrderStatusEN= orderStatusEN;
+			orderFromDb.OrderStatusRU= orderStatusRU;
+			if(!string.IsNullOrEmpty(paymentStatusEN) || !string.IsNullOrEmpty(paymentStatusRU))
 			{
-				orderFromDb.PaymentStatus= paymentStatus;
+				orderFromDb.PaymentStatusEN= paymentStatusEN;
+				orderFromDb.PaymentStatusRU= paymentStatusRU;
 			}
 		}
 	}

@@ -175,7 +175,7 @@
     <value>Телефон</value>
   </data>
   <data name="PickUpDetails" xml:space="preserve">
-    <value>Данные Заказа</value>
+    <value>Данные Заказа:</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Цена</value>

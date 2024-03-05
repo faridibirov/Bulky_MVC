@@ -125,15 +125,19 @@ public class CartController : Controller
 		if (applicationUser.CompanyId.GetValueOrDefault() == 0)
 		{
 			//it is a regular customer and we need to take payment
-			ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-			ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+			ShoppingCartVM.OrderHeader.PaymentStatusEN = SD.PaymentStatusPendingEN;
+			ShoppingCartVM.OrderHeader.PaymentStatusRU = SD.PaymentStatusPendingRU;
+			ShoppingCartVM.OrderHeader.OrderStatusRU = SD.StatusPendingRU;
+			ShoppingCartVM.OrderHeader.OrderStatusRU = SD.StatusPendingRU;
 		}
 
 		else
 		{
 			//it is a company account
-			ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-			ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+			ShoppingCartVM.OrderHeader.PaymentStatusEN = SD.PaymentStatusDelayedPaymentEN;
+			ShoppingCartVM.OrderHeader.PaymentStatusRU = SD.PaymentStatusDelayedPaymentRU;
+			ShoppingCartVM.OrderHeader.OrderStatusEN = SD.StatusApprovedEN;
+			ShoppingCartVM.OrderHeader.OrderStatusRU = SD.StatusApprovedRU;
 		}
 
 		_unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -200,7 +204,7 @@ public class CartController : Controller
 	public IActionResult OrderConfirmation(int id)
 	{
 		OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
-		if(orderHeader.PaymentStatus!=SD.PaymentStatusDelayedPayment)
+		if(orderHeader.PaymentStatusEN!=SD.PaymentStatusDelayedPaymentEN)
 		{
 			//this is an order by customer
 
@@ -211,7 +215,7 @@ public class CartController : Controller
 			if(session.PaymentStatus.ToLower()=="paid")
 			{
 				_unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
-				_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+				_unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApprovedEN, SD.StatusApprovedRU,  SD.PaymentStatusApprovedEN, SD.PaymentStatusApprovedRU);
 				_unitOfWork.Save();
 			}
 			HttpContext.Session.Clear();

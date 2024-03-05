@@ -2,14 +2,19 @@
 
 var languageStrings = {
     'en': {
-        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json"
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json",
+        'orderStatus' : 'orderStatusEN'
+
     },
     'ru': {
-        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json"
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json",
+        'orderStatus': 'orderStatusRU'
     }
 };
 
 var languageUrl = languageStrings[cultureInfo].languageUrl;
+
+var orderStatusProperty = languageStrings[cultureInfo].orderStatus;
 
 $(document).ready(function () {
    
@@ -53,7 +58,7 @@ function loadDataTable(status) {
             { data: 'name', "width": "25%" },
             { data: 'phoneNumber', "width": "20%" },
             { data: 'applicationUser.email', "width": "20%" },
-            { data: 'orderStatus', "width": "10%" },
+            { data: orderStatusProperty, "width": "15%" },
             { data: 'orderTotal', "width": "10%" },
             {
                 data: 'id',
