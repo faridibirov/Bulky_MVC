@@ -1,9 +1,28 @@
 ﻿var dataTable;
+
+var languageStrings = {
+    'en': {
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json",
+        'lockButtonText': 'Locked',
+        'unlockButtonText': 'Unlocked',
+        'permissionButtonText': 'Permission',
+    },
+    'ru': {
+        'languageUrl': "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Russian.json",
+        'lockButtonText': 'Заблокирован',
+        'unlockButtonText': 'Разблокирован',
+        'permissionButtonText': 'Разрешение',
+       
+    }
+};
+
+
 $(document).ready(function () {
     loadDataTable();
 });
 
 function loadDataTable() {
+    var languageUrl = languageStrings[cultureInfo].languageUrl;
 
     if ($.fn.DataTable.isDataTable('#tblData')) {
         $('#tblData').DataTable().destroy();
@@ -11,7 +30,9 @@ function loadDataTable() {
 
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/user/getall' },
-
+        "language": {
+            "url": languageUrl
+        },
         "columns": [
             { data: 'name', "width":"15%" },
             { data: 'email', "width": "15%" },
@@ -27,11 +48,11 @@ function loadDataTable() {
                     if (lockout > today) {
                         return `
                         <div class="text-center">
-                          <a onclick=LockUnlock('${data.id}') class="btn btn-danger text-white" style="cursor:pointer; width:100px;">
-                                    <i class="bi bi-lock-fill"></i>  Lock
+                          <a onclick=LockUnlock('${data.id}') class="btn btn-danger text-white" style="cursor:pointer; ">
+                                    <i class="bi bi-lock-fill"></i>  ${languageStrings[cultureInfo].lockButtonText}
                                 </a> 
-                            <a href="/admin/user/RoleManagement?id=${data.id}" class="btn btn-danger text-white" style="cursor:pointer; width:150px";>
-                            <i class="bi bi-unlock-fill"></i> Permission
+                            <a href="/admin/user/RoleManagement?id=${data.id}" class="btn btn-danger text-white" style="cursor:pointer; ";>
+                            <i class="bi bi-unlock-fill"></i> ${languageStrings[cultureInfo].permissionButtonText}
                             </a>
                         </div>
                     `
@@ -40,17 +61,17 @@ function loadDataTable() {
                     else {
                         return `
                         <div class="text-center">
-                           <a onclick=LockUnlock('${data.id}') class="btn btn-success text-white" style="cursor:pointer; width:100px;">
-                                    <i class="bi bi-unlock-fill"></i>  UnLock
+                           <a onclick=LockUnlock('${data.id}') class="btn btn-success text-white" style="cursor:pointer; ">
+                                    <i class="bi bi-unlock-fill"></i>  ${languageStrings[cultureInfo].unlockButtonText}
                                 </a>
-                            <a  href="/admin/user/RoleManagement?id=${data.id}" class="btn btn-danger text-white" style="cursor:pointer; width:150px";>
-                            <i class="bi bi-unlock-fill"></i> Permission
+                            <a  href="/admin/user/RoleManagement?id=${data.id}" class="btn btn-danger text-white" style="cursor:pointer;";>
+                            <i class="bi bi-unlock-fill"></i> ${languageStrings[cultureInfo].permissionButtonText}
                             </a>
                         </div>
                         `
                     }
-                },
-                
+                }, 
+               
             }
         ]
     } );

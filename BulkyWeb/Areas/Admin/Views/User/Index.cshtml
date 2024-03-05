@@ -1,8 +1,10 @@
-﻿<div class="card shadow border-0 my-4 mb-5">
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="card shadow border-0 my-4 mb-5">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2 class="text-white py-2">User List</h2>
+				<h2 class="text-white py-2">@localizer["UserList"]</h2>
 			</div>
 		</div>
 	</div>
@@ -11,11 +13,11 @@
 		<table id="tblData" class="table table-bordered  table-striped" style="width:100%">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Phone</th>
-					<th>Company</th>
-					<th>Role</th>
+					<th>@localizer["Name"]</th>
+					<th>@localizer["Email"]</th>
+					<th>@localizer["Phone"]</th>
+					<th>@localizer["Company"]</th>
+					<th>@localizer["Role"]</th>
 					<th></th>
 				</tr>
 			</thead>

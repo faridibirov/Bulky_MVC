@@ -6,9 +6,11 @@ using Bulky.Models.ViewModels;
 using Bulky.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace BulkyWeb.Areas.Admin.Controllers;
 
@@ -31,6 +33,21 @@ public class UserController : Controller
 	public IActionResult Index()
 	{
 		return View();
+	}
+
+	[HttpPost]
+	public IActionResult CultureManagement(string culture, string returnUrl)
+	{
+		Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+			CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+			new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+		return LocalRedirect(returnUrl);
+	}
+
+	private string GetCurrentCulture()
+	{
+		return CultureInfo.CurrentCulture.Name;
 	}
 
 
@@ -107,7 +124,7 @@ public class UserController : Controller
 
 		if (objFromDb == null)
 		{
-			return Json(new { success = false, message = "Error while Locking/Unlocking" });
+			return Json(new { success = false, message = GetCurrentCulture()=="en" ? "Error while Locking/Unlocking" : "Ошибка при блокировке/разблокировке" });
 
 		}
 
@@ -125,7 +142,7 @@ public class UserController : Controller
 		_unitOfWork.ApplicationUser.Update(objFromDb);
 		_unitOfWork.Save();
 
-		return Json(new { success = true, message = "Operation Successful" });
+		return Json(new { success = true, message = GetCurrentCulture() == "en" ? "Operation Successful" : "Операция прошла успешно" });
 	}
 
 
