@@ -1,10 +1,10 @@
 ﻿@page
-@using System.Globalization
 @model LoginModel
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
     var currentCulture = CultureInfo.CurrentCulture.Name;
+   
+    ViewData["Title"] = localizer["Login"];
 }
 
 <div class="card shadow border-0 mt-4">

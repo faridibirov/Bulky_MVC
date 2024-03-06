@@ -1,6 +1,7 @@
-﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-
+﻿
 @{
+	ViewData["Title"] = localizer["OrderList"];
+
 	var status = Context.Request.Query["status"];
 	var paymentpending = "text-primary";
 	var inprocess = "text-primary";

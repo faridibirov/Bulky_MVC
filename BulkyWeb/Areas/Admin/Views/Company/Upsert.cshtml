@@ -1,5 +1,9 @@
 ﻿@model Company
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+	ViewData["Title"] = Model.Id != 0 ? localizer["Update"] : localizer["Create"];
+}
+
 
 <div class="card shadow border-0 my-4 mb-5">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">

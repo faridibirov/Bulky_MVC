@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<Product>
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
-@using System.Globalization
+
 
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
+	ViewData["Title"] = currentCulture == "en" ? "Home" : "Главная";
 }
 
 <div class="row pb-3">

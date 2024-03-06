@@ -1,5 +1,10 @@
 ﻿@model int 
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+	var currentCulture = CultureInfo.CurrentCulture.Name;
+	ViewData["Title"] = currentCulture == "en" ? "Order Confirmation" : "Подтверждение Заказа";
+
+}
 
 <div class="container row pt-4">
 	<div class="col-12 text-center">

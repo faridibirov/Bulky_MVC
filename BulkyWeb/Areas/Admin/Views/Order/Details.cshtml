@@ -1,9 +1,9 @@
-﻿@using System.Globalization
-@model OrderVM
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+﻿@model OrderVM
 
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
+	ViewData["Title"] = localizer["OrderSummary"];
+
 }
 
 
