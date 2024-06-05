@@ -159,30 +159,25 @@ public class CartController : Controller
 
         if (applicationUser.CompanyId.GetValueOrDefault() == 0)
         {
-            // Process bank payment
-            var domain = $"{Request.Scheme}://{Request.Host.Value}";
+            var domain = $"{Request.Scheme}://{Request.Host}/";
             var paymentResult = await _bankPaymentService.ProcessPayment(ShoppingCartVM.OrderHeader, domain);
 
             if (paymentResult.IsSuccess)
             {
-                _unitOfWork.OrderHeader.UpdateBankPaymentID(ShoppingCartVM.OrderHeader.Id, paymentResult.OrderId, paymentResult.SessionId);
-                _unitOfWork.Save();
-                Response.Headers.Add("Location", paymentResult.Url);
-                return new StatusCodeResult(303);
+                return Redirect(paymentResult.RedirectUrl);
             }
-            else
-            {
-                // Handle payment failure
-                ModelState.AddModelError(string.Empty, paymentResult.ErrorMessage);
-                return View(ShoppingCartVM);
-            }
+            //else
+            //{
+            //    ModelState.AddModelError(string.Empty, paymentResult.ErrorMessage);
+            //    return View(ShoppingCartVM);
+            //}
         }
 
         return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
     }
 
 
-    public IActionResult OrderConfirmation(int id)
+public IActionResult OrderConfirmation(int id)
     {
         OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
 
