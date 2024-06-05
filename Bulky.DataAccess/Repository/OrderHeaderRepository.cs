@@ -40,7 +40,16 @@ public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderReposi
 		}
 	}
 
-	public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
+    public void UpdateBankPaymentID(int id, string orderId, string sessionId)
+    {
+        var orderHeaderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+        if (orderHeaderFromDb != null)
+        {
+            orderHeaderFromDb.SessionId = sessionId;
+        }
+    }
+
+    public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
 	{
 		var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
 		if (!string.IsNullOrEmpty(sessionId))
