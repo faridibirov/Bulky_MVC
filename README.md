@@ -35,3 +35,6 @@ cd Bulky_MVC
 - **Open the solution in Visual Studio 2022.
 - **Update the connection strings in appsettings.json.
 - **Run the application using IIS Express or your preferred web server.
+
+## Contribution
+Feel free to contribute to this project by submitting issues or pull requests. Your feedback and improvements are welcome!
