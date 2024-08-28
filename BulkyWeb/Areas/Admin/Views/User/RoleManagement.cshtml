@@ -1,8 +1,9 @@
-﻿@model RoleManagementVM
+﻿@using System.Globalization
+@model RoleManagementVM
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
-	ViewData["Title"] = localizer["RoleManagement"];
 }
 
 <div class="card shadow border-0 my-4 mb-5">

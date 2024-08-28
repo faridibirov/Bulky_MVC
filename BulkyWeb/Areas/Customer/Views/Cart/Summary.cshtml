@@ -1,9 +1,10 @@
-﻿@model ShoppingCartVM
+﻿@using System.Globalization
+@model ShoppingCartVM
+
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
-	ViewData["Title"] =  localizer["OrderSummary"];
-
 }
 
 <form method="post">

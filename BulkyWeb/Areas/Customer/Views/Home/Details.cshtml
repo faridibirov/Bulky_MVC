@@ -1,8 +1,8 @@
-﻿@model ShoppingCart
+﻿@using System.Globalization
+@model ShoppingCart
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 @{
 	var currentCulture = CultureInfo.CurrentCulture.Name;
-	ViewData["Title"] = currentCulture == "en" ? "Details" : "Подробнее";
-
 }
 <form method="post" action="Details">
 	<input hidden asp-for="ProductId" />

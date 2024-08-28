@@ -1,8 +1,5 @@
 ﻿@model int
-
-@{
-	ViewData["Title"] = localizer["PaymentSuccessful"];
-}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="container row pt-4">
 	<div class="col-12 text-center">

@@ -1,8 +1,9 @@
-﻿@model ShoppingCartVM
+﻿@using System.Globalization
+@model ShoppingCartVM
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 @{
     var currentCulture = CultureInfo.CurrentCulture.Name;
-    ViewData["Title"] = currentCulture== "en" ? "Shopping Cart" : "Корзина";
 }
 
 <form method="post">

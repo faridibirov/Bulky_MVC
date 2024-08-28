@@ -1,9 +1,6 @@
 ﻿@page
 @model RegisterModel
-
-@{
-	ViewData["Title"] = localizer["Register"];
-}
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-4">
