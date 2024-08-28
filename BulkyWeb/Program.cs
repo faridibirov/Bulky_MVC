@@ -9,7 +9,6 @@ using Stripe;
 using Bulky.DataAccess.DbInitializer;
 using System.Globalization;
 using Microsoft.Extensions.Options;
-using BulkyWeb;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +17,18 @@ builder.Services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 builder.Services.AddMvc().AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 builder.Services.Configure<RequestLocalizationOptions>(opt =>
 {
-    var supportedCultures = new List<CultureInfo>
-    {
-        new CultureInfo("en"),
-        new CultureInfo("ru"),
-    };
-    opt.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
-    opt.SupportedCultures = supportedCultures;
-    opt.SupportedUICultures = supportedCultures;
+	var supportedCultures = new List<CultureInfo>
+	{
+		new CultureInfo("en"),
+		new CultureInfo("ru"),
+	};
+	opt.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+	opt.SupportedCultures = supportedCultures;
+	opt.SupportedUICultures = supportedCultures;
 });
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options=> 
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
@@ -39,22 +38,22 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(100);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+	options.IdleTimeout = TimeSpan.FromMinutes(100);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = $"/Identity/Account/Login";
-    options.LogoutPath = $"/Identity/Account/Logout";
-    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+	options.LoginPath = $"/Identity/Account/Login";
+	options.LogoutPath = $"/Identity/Account/Logout";
+	options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
 builder.Services.AddAuthentication().AddFacebook(options =>
 {
-    options.AppId = "669642315155373";
-    options.AppSecret = "07dd8ba9e51cc2501bf329487e49cedb";
+	options.AppId = "669642315155373";
+	options.AppSecret = "07dd8ba9e51cc2501bf329487e49cedb";
 });
 
 builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
@@ -62,8 +61,6 @@ builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
 	options.ClientId = "5b0b24f0-0cff-4d3d-9b00-b5ee28a5ae3d";
 	options.ClientSecret = "7NxZc.N";
 });
-
-builder.Services.AddHttpClient<BankPaymentService>();
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages();
@@ -75,9 +72,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+	app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -97,16 +94,16 @@ app.UseRequestLocalization(options.Value);
 app.UseSession();
 SeedDatabase();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
 void SeedDatabase()
 {
-    using(var scope = app.Services.CreateScope())
-    {
-        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-        dbInitializer.Initialize();
-    }
+	using (var scope = app.Services.CreateScope())
+	{
+		var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+		dbInitializer.Initialize();
+	}
 }

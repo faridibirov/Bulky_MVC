@@ -14,12 +14,12 @@ public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderReposi
 {
 	private readonly ApplicationDbContext _db;
 
-	public OrderHeaderRepository(ApplicationDbContext db) :base(db)
+	public OrderHeaderRepository(ApplicationDbContext db) : base(db)
 	{
 		_db = db;
 	}
 
-	
+
 	public void Update(OrderHeader obj)
 	{
 		_db.OrderHeaders.Update(obj);
@@ -27,39 +27,30 @@ public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderReposi
 
 	public void UpdateStatus(int id, string orderStatusEN, string orderStatusRU, string? paymentStatusEN = null, string? paymentStatusRU = null)
 	{
-		var orderFromDb=_db.OrderHeaders.FirstOrDefault(u=>u.Id == id);
+		var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
 		if (orderFromDb != null)
 		{
-			orderFromDb.OrderStatusEN= orderStatusEN;
-			orderFromDb.OrderStatusRU= orderStatusRU;
-			if(!string.IsNullOrEmpty(paymentStatusEN) || !string.IsNullOrEmpty(paymentStatusRU))
+			orderFromDb.OrderStatusEN = orderStatusEN;
+			orderFromDb.OrderStatusRU = orderStatusRU;
+			if (!string.IsNullOrEmpty(paymentStatusEN) || !string.IsNullOrEmpty(paymentStatusRU))
 			{
-				orderFromDb.PaymentStatusEN= paymentStatusEN;
-				orderFromDb.PaymentStatusRU= paymentStatusRU;
+				orderFromDb.PaymentStatusEN = paymentStatusEN;
+				orderFromDb.PaymentStatusRU = paymentStatusRU;
 			}
 		}
 	}
 
-    public void UpdateBankPaymentID(int id, string orderId, string sessionId)
-    {
-        var orderHeaderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
-        if (orderHeaderFromDb != null)
-        {
-            orderHeaderFromDb.SessionId = sessionId;
-        }
-    }
-
-    public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
+	public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
 	{
 		var orderFromDb = _db.OrderHeaders.FirstOrDefault(u => u.Id == id);
 		if (!string.IsNullOrEmpty(sessionId))
 		{
-			orderFromDb.SessionId= sessionId;
+			orderFromDb.SessionId = sessionId;
 		}
 
-		if(!string.IsNullOrEmpty(paymentIntentId))
+		if (!string.IsNullOrEmpty(paymentIntentId))
 		{
-			orderFromDb.PaymentIntentId= paymentIntentId;
+			orderFromDb.PaymentIntentId = paymentIntentId;
 			orderFromDb.PaymentDate = DateTime.Now;
 		}
 	}
